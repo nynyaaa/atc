@@ -5,8 +5,8 @@ Mini Auto Train Control Blocking signal scheduling
 #include "Arduino.h"
 #include "signal.h"
 
-Signal signals[] = { Signal(0x20) , Signal(0x21), Signal(0x22) };
-const int MAX_SIGNAL = 3;
+Signal signals[] = { Signal(0x20) , Signal(0x21), Signal(0x22), Signal(0x23) };
+const int MAX_SIGNAL = 4;
 
 void setup()
 {
@@ -37,5 +37,5 @@ void loop()
             signals[i-1].release();
         delay(500);
     }
-    signals[2].release();
+    signals[MAX_SIGNAL-1].release();
 }
