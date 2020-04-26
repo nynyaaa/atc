@@ -14,28 +14,29 @@ void setup()
     for(int i = 0; i < MAX_SIGNAL; i++){
         signals[i].begin();
     }
-}
-
-void loop()
-{
-    delay(500);
-    for(int i = 0; i < MAX_SIGNAL; i++){
-        signals[i].release();
-    }
-    /*
-    delay(500);
-    for(int i = 0; i < MAX_SIGNAL; i++){
-        signals[i].block();
-    }
-    */
 
     delay(1500);
 
     for(int i = 0; i < MAX_SIGNAL; i++){
-        signals[i].block();
-        if( i > 0)
-            signals[i-1].release();
-        delay(500);
+        signals[i].release();
+        signals[i].release();
     }
-    signals[MAX_SIGNAL-1].release();
+}
+
+void loop()
+{
+
+    for(int i = 0; i < MAX_SIGNAL; i++){
+        signals[i].refresh();
+        int prev = i -1;
+        if(prev < 0) {
+            prev += MAX_SIGNAL;
+        }
+        if(signals[i].isBlocked()){
+            signals[prev].block();
+        } else {
+            signals[prev].release();
+        }
+    }
+
 }
